@@ -9,6 +9,10 @@ namespace Car_Rent
 {
     class Program
     {
+        //IMPORTANTE
+        //Al momento de seleccionar el vehiculo, siempre aparecera el mensaje de que no se pudo agregar la primera
+        //vez, hay que seleccionarlo denuevo. Esto es porque use el ciclo dowhile pensando en que solo entra en el do si la condicion del while da true
+
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -396,7 +400,12 @@ namespace Car_Rent
                         sucursal.agregarVehiculo(new Retroexcavadora(patente, nombre, precio));
                     }
 
+                    Console.BackgroundColor = ConsoleColor.Green;
                     Console.WriteLine("Vehiculo Agregado");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Beep();
+                    Console.WriteLine("Preione una tecla para continuar");
+                    Console.ReadKey();
                     goto Inicio;
                 }
 
