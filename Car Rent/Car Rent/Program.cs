@@ -96,8 +96,11 @@ namespace Car_Rent
                 {
                     do
                     {
-                        
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.Beep();
+                        Console.Beep();
                         Console.WriteLine("No puede arrendar ese vehiculo. Porfavor elija otro.");
+                        Console.BackgroundColor = ConsoleColor.Black;
                         MostrarVehiculos(sucursal);
                         vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine())-1];
                     } while ((cliente.GetTipo().Equals(TipoCliente.Persona) && ((int)cliente.Getlicencia() <= vehiculo.GetTipoN())) ||vehiculo.GetTipoN().Equals(TipoVehiculo.E)); //Esto hace que no pueda arrendar un bus
@@ -108,24 +111,39 @@ namespace Car_Rent
                 
                 else if (cliente.GetTipo().Equals(TipoCliente.Organizacion)|| cliente.GetTipo().Equals(TipoCliente.Insitucion) || cliente.GetTipo().Equals(TipoCliente.Empresa))
                 {
-                    
-                    do
+                    if (!cliente.GetAutorizacion().Contains(vehiculo.GetTipo()))
                     {
-                        
-                        Console.WriteLine("No se puede arrendar ese vehiculo. Porfavor elija otro.");
-                        MostrarVehiculos(sucursal);
-                        vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine())-1];
-                    } while (!cliente.GetAutorizacion().Contains(vehiculo.GetTipo())); //Mientras la empresa, sucursal o organizacion no tenga la autorizacion se queda aca
 
-                    do
+
+                        do
+                        {
+
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.Beep();
+                            Console.Beep();
+                            Console.WriteLine("No puede arrendar ese vehiculo. Porfavor elija otro.");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            MostrarVehiculos(sucursal);
+                            vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine()) - 1];
+                        } while (!cliente.GetAutorizacion().Contains(vehiculo.GetTipo())); //Mientras la empresa, sucursal o organizacion no tenga la autorizacion se queda aca
+                    }
+                    if ((vehiculo.GetTipo().Equals(TipoVehiculo.F) || vehiculo.GetTipo().Equals(TipoVehiculo.G)) && (cliente.GetTipo().Equals(TipoCliente.Organizacion) || cliente.GetTipo().Equals(TipoCliente.Insitucion)))
                     {
-                        
-                        Console.WriteLine("No se puede arrendar ese vehiculo. Porfavor elija otro.");
-                        MostrarVehiculos(sucursal);
-                        vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine())-1];
-                    } while ((vehiculo.GetTipo().Equals(TipoVehiculo.F) || vehiculo.GetTipo().Equals(TipoVehiculo.G)) && (cliente.GetTipo().Equals(TipoCliente.Organizacion) || cliente.GetTipo().Equals(TipoCliente.Insitucion)));
-                    //Este de arriba hace que las organizaciones e instituciones no puedan arrendar maquinaria pesada
 
+
+                        do
+                        {
+
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.Beep();
+                            Console.Beep();
+                            Console.WriteLine("No puede arrendar ese vehiculo. Porfavor elija otro.");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            MostrarVehiculos(sucursal);
+                            vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine()) - 1];
+                        } while ((vehiculo.GetTipo().Equals(TipoVehiculo.F) || vehiculo.GetTipo().Equals(TipoVehiculo.G)) && (cliente.GetTipo().Equals(TipoCliente.Organizacion) || cliente.GetTipo().Equals(TipoCliente.Insitucion)));
+                        //Este de arriba hace que las organizaciones e instituciones no puedan arrendar maquinaria pesada
+                    }
 
                     if (vehiculo.GetTipo().Equals(TipoVehiculo.F) || vehiculo.GetTipo().Equals(TipoVehiculo.G)) //Ve lo de maquinaria pesada y empresa
                     {
@@ -152,13 +170,20 @@ namespace Car_Rent
                         else
                         {
                             Console.WriteLine("La municipalidad no le dio el permiso, escoja otro vehiculo");
-                            do
+                            MostrarVehiculos(sucursal);
+                            vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine()) - 1];
+                            if ((vehiculo.GetTipo().Equals(TipoVehiculo.F)) || vehiculo.GetTipo().Equals(TipoVehiculo.G))
                             {
-                                Console.Clear();
-                                Console.WriteLine("No se puede arrendar ese vehiculo. Porfavor elija otro.");
-                                MostrarVehiculos(sucursal);
-                                vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine())-1];
-                            } while ((vehiculo.GetTipo().Equals(TipoVehiculo.F)) || vehiculo.GetTipo().Equals(TipoVehiculo.G));
+
+
+                                do
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("No se puede arrendar ese vehiculo. Porfavor elija otro.");
+                                    MostrarVehiculos(sucursal);
+                                    vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine()) - 1];
+                                } while ((vehiculo.GetTipo().Equals(TipoVehiculo.F)) || vehiculo.GetTipo().Equals(TipoVehiculo.G));
+                            }
                         }
                     }
                     if (vehiculo.GetTipo().Equals(TipoVehiculo.E))
@@ -179,7 +204,11 @@ namespace Car_Rent
 
                             else
                             {
+                                Console.BackgroundColor = ConsoleColor.Red;
                                 Console.WriteLine("La municipalidad no le dio el permiso, escoja otro vehiculo");
+                                Console.Beep();
+                                Console.Beep();
+                                Console.BackgroundColor = ConsoleColor.Black;
                                 do
                                 {
                                     Console.Clear();
@@ -214,7 +243,13 @@ namespace Car_Rent
 
                 Console.Write("Ingrese nombre del arriendo: ");
                 sucursal.crearArriendo(new Arriendo(vehiculo, cliente, precioFinal, sucursal, fechaTermino, accesorio));
+                vehiculo.estado = Estados.Arrendado;
+                Console.BackgroundColor = ConsoleColor.Green;
                 Console.WriteLine("Arriendo creado");
+                Console.Beep();
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ReadKey();
+
             } 
             void MenuSucursal(Sucursal sucursal)
             {
@@ -415,6 +450,7 @@ namespace Car_Rent
             void Menu()
             {
                 InicioPrograma:
+                Console.Clear();
                 Console.BackgroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Bienvenido al CarRent");
                 Console.BackgroundColor = ConsoleColor.Black;
@@ -428,6 +464,12 @@ namespace Car_Rent
                 {
                     Console.Write("Ingrese el nombre de la sucursal: ");
                     Sucursales.Add(new Sucursal(Console.ReadLine()));
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.Beep();
+                    Console.Beep();
+                    Console.WriteLine("Sucursal creada.");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write("Presione una tecla");
                     goto InicioPrograma;
                 }
 
@@ -435,7 +477,11 @@ namespace Car_Rent
                 {
                     if (Sucursales.Count() == 0)
                     {
-                        Console.WriteLine("No hay sucursales, cree una.");
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.Beep();
+                        Console.Beep();
+                        Console.WriteLine("No puede arrendar ese vehiculo. Porfavor elija otro.");
+                        Console.BackgroundColor = ConsoleColor.Black;
                         goto InicioPrograma;
                     }
                     Console.WriteLine("A que sucursal desea acceder: ");
