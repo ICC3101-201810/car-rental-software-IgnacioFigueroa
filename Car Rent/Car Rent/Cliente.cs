@@ -8,7 +8,7 @@ namespace Car_Rent
 {
     interface IGetLicencia
     {
-        TipoVehiculo Getlicencia();
+        
         List<TipoVehiculo> GetAutorizacion();
         List<TipoVehiculo> GetPermiso();
     }
@@ -32,9 +32,9 @@ namespace Car_Rent
             return (int)TipoCliente.Persona;
         }
 
-        public TipoVehiculo Getlicencia()
+        public virtual TipoVehiculo Getlicencia()
         {
-            return TipoVehiculo.A;
+            return TipoVehiculo.G;
         }
 
         public List<TipoVehiculo> GetAutorizacion()
@@ -69,7 +69,7 @@ namespace Car_Rent
             return (int)TipoCliente.Persona;
         }
 
-        public TipoVehiculo Getlicencia()
+        public override TipoVehiculo Getlicencia()
         {
             return licenciaPersona;
         }

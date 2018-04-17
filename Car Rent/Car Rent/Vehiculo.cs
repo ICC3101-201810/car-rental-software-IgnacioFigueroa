@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 namespace Car_Rent
 {
     public enum TipoVehiculo { A, B, C, D, E, F, G }
-
+    public enum Estados { Disponible, Arrendado }
     abstract class Vehiculo
     {
         public int precio { get ; private set;}
         string patente;
         public string nombre { get; private set; }
-        
+        public Estados estado;
 
         public Vehiculo(string patente, string nombre, int precio)
         {
             this.patente = patente;
             this.nombre = nombre;
             this.precio = precio;
+            estado = Estados.Disponible;
 
         }
 
@@ -36,9 +37,11 @@ namespace Car_Rent
     class Auto : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Auto(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.A;
+            estado = Estados.Disponible;
         }
 
         public override int GetTipoN()
@@ -54,9 +57,11 @@ namespace Car_Rent
     class Moto : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Moto(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.B;
+            estado = Estados.Disponible;
         }
         public override int GetTipoN()
         {
@@ -72,9 +77,11 @@ namespace Car_Rent
     class Lancha : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Lancha(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.C;
+            estado = Estados.Disponible;
         }
         public override int GetTipoN()
         {
@@ -90,9 +97,11 @@ namespace Car_Rent
     class Camion : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Camion(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.D;
+            estado = Estados.Disponible;
         }
         public override int GetTipoN()
         {
@@ -109,9 +118,11 @@ namespace Car_Rent
     class Bus : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Bus(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.E;
+            estado = Estados.Disponible;
         }
         public override int GetTipoN()
         {
@@ -126,9 +137,11 @@ namespace Car_Rent
     class Tractor : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Tractor(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.F;
+            estado = Estados.Disponible;
         }
         public override int GetTipoN()
         {
@@ -143,9 +156,11 @@ namespace Car_Rent
     class Retroexcavadora : Vehiculo
     {
         TipoVehiculo Tipo;
+        public Estados estado;
         public Retroexcavadora(string patente, string nombre, int precio) : base(patente, nombre, precio)
         {
             Tipo = TipoVehiculo.G;
+            estado = Estados.Disponible;
         }
         public override int GetTipoN()
         {

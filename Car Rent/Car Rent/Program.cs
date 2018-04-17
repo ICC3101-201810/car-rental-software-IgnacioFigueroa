@@ -11,6 +11,7 @@ namespace Car_Rent
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             int OpcionesLicencia()
             {
                 Console.Write("1. A\n" +
@@ -24,12 +25,17 @@ namespace Car_Rent
             }//Funcion para mostrar y elegir una licencia/tipodevehiculo
             void MostrarVehiculos(Sucursal sucursal)
             {
-                int contador = 1;
+                int cont = 1;
                 foreach (Vehiculo v in sucursal.vehiculos)
                 {
-                    Console.WriteLine(contador.ToString() + " " + v.nombre);
-                    contador += 1;
+                    if (v.estado.Equals(Estados.Disponible))
+                    {
+                        Console.WriteLine(cont + ". " + v.nombre);
+                        
+                    }
+                    cont += 1;
                 }
+                
             } //Funcion para mostrar los vehiculos de la sucursal
             bool PermisoMunicipalidad(TipoVehiculo tipoVehiculo, TipoCliente tipoCliente)
             {
@@ -82,7 +88,7 @@ namespace Car_Rent
                 MostrarVehiculos(sucursal);
                 Vehiculo vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine())-1];
                 precioFinal += vehiculo.precio;
-                if (cliente.GetTipo().Equals(TipoCliente.Persona))
+                if ((cliente.GetTipo().Equals(TipoCliente.Persona) && ((int)cliente.Getlicencia() <= vehiculo.GetTipoN())) || vehiculo.GetTipoN().Equals(TipoVehiculo.E))
                 {
                     do
                     {
@@ -90,10 +96,11 @@ namespace Car_Rent
                         Console.WriteLine("No puede arrendar ese vehiculo. Porfavor elija otro.");
                         MostrarVehiculos(sucursal);
                         vehiculo = sucursal.vehiculos[Convert.ToInt32(Console.ReadLine())-1];
-                    } while ((cliente.GetTipo().Equals(TipoCliente.Persona) && ((int)cliente.Getlicencia() < vehiculo.GetTipoN())) ||vehiculo.GetTipoN().Equals(TipoVehiculo.E)); //Esto hace que no pueda arrendar un bus
+                    } while ((cliente.GetTipo().Equals(TipoCliente.Persona) && ((int)cliente.Getlicencia() <= vehiculo.GetTipoN())) ||vehiculo.GetTipoN().Equals(TipoVehiculo.E)); //Esto hace que no pueda arrendar un bus
                     //Si la letra de la licencia de la persona es mayor o igual a la letra del tipo de vehiculo, entonces la persona puede arrendar el vehiculo
                     goto Accesorio;
                 }
+                
                 
                 else if (cliente.GetTipo().Equals(TipoCliente.Organizacion)|| cliente.GetTipo().Equals(TipoCliente.Insitucion) || cliente.GetTipo().Equals(TipoCliente.Empresa))
                 {
@@ -198,7 +205,7 @@ namespace Car_Rent
                 }
                 
 
-                Console.Write("Ingrese la fecha de termino del contrato(MM/DD/AAAA): ");
+                Console.Write("Ingrese la fecha de termino del contrato(DD/MM/AAAA): ");
                 DateTime fechaTermino = DateTime.Parse(Console.ReadLine());
 
                 Console.Write("Ingrese nombre del arriendo: ");
@@ -209,6 +216,9 @@ namespace Car_Rent
             {
                 Inicio:
                 Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Usted esta en la sucursal " + sucursal.nombre);
+                Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine("Que desea hacer:\n1. Crear Arriendo\n" +
                                                     "2. Agregar Vehiculo\n" +
                                                     "3. Salir de la sucursal\n");
@@ -396,10 +406,15 @@ namespace Car_Rent
             void Menu()
             {
                 InicioPrograma:
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Bienvenido al CarRent");
+                Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine("Que desea hacer:\n1. Crear sucursal\n" +
                                                     "2. Acceder a sucursal\n" +
-                                                    "3. Salir\n");
+                                                    "3. Salir");
+                Console.Write("Opcion: ");
                 int eleccion = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
                 if (eleccion == 1)
                 {
                     Console.Write("Ingrese el nombre de la sucursal: ");
